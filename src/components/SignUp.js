@@ -13,6 +13,8 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 
+import {Form} from 'react-bootstrap'
+
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -51,7 +53,6 @@ function SignUp() {
     // form on submit
     const handleSubmit = (event) => { 
         event.preventDefault();
-        
     }
 
     return (
@@ -60,7 +61,7 @@ function SignUp() {
             <div className="login-title">Sign Up</div>
 
             <div className="login-details-div">
-                <form onSubmit={handleSubmit}>
+                <Form>
                     <FormControl fullWidth className={clsx(classes.withoutLabel)}>
                         <TextField
                             required
@@ -115,20 +116,20 @@ function SignUp() {
                             labelWidth={90}
                         />
                     </FormControl>
-                </form>
+            
+                    <Link to="/home" className={clsx(classes.LinkStyle)}>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={clsx(classes.withoutLabel)}
+                        >
+                        Sign UP
+                        </Button>
+                    </Link>
+                </Form>
             </div>
-
-            <Link to="/home" className={clsx(classes.LinkStyle)}>
-                <Button
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    className={clsx(classes.withoutLabel)}
-                >
-                Sign UP
-                </Button>
-            </Link>
-
+            
             <Link to="/sign-in">
                 <p className="link">Already have an account ? Sign In</p>
             </Link>
