@@ -11,7 +11,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 
-import {Link} from 'react-router-dom';
+// import {Link} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     withoutLabel: {
@@ -95,9 +95,9 @@ function Login() {
                 </Button>
             </Link>
             
-            <Link to="/sign-up">
+            {/* <Link to="/sign-up"> */}
                 <p className="link">Don't have an account ? Sign Up</p>
-            </Link>
+            {/* </Link> */}
 
         </Container>
     );
