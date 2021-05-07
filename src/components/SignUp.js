@@ -1,5 +1,5 @@
-import React, {useRef, useState} from 'react';
-import { Container, TextField, Button,FormHelperText } from "@material-ui/core";
+import React, {useState} from 'react';
+import { TextField, Button,FormHelperText } from "@material-ui/core";
 import LockIcon from '@material-ui/icons/Lock';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,15 +14,17 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 
 import { Form, Alert } from 'react-bootstrap'
+import "bootstrap/dist/css/bootstrap.min.css"
 
-// import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { useAuth } from '../contexts/AuthContext'
+
+import '../App.scss'
 
 const useStyles = makeStyles((theme) => ({
     withoutLabel: {
         marginTop: theme.spacing(3),
-
     },
     LinkStyle: {
         textDecoration: "None"
@@ -33,45 +35,48 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SignUp() {
-
-    const emailRef = useRef();
-    const passwordRef = useRef();
-    const passwordConfirmRef = useRef();
     
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
-    const { signup } = useAuth();
+    const { signup ,currentUser} = useAuth();
 
-    // form on submit
-    async function handleSubmit(event){
-        console.log("submitting")
-        event.preventDefault();
+    const history = useHistory();
 
-        if( passwordRef.current.value !== passwordConfirmRef.current.value ){
-            return setError("Password do not match");
-        }
-        try {
-            setLoading(true);
-            setError("");
-            await signup(emailRef.current.value, passwordRef.current.value);
-        } catch
-        {
-            setLoading(false);
-            setError("Failed to Create Account");
-        }
-    }
 
     // styles
     const classes = useStyles();
 
     // password visiblity
     const [values, setValues] = React.useState({
+        email: '',
         password: '',
         showPassword: false,
-        ConfirmPassword: '',
+        confirmPassword: '',
         showConfirmPassword:false
     });
+
+    // form on submit
+    async function handleSubmit(event){
+        
+        event.preventDefault();
+
+        if( values.password !== values.confirmPassword ){
+            return setError("Password do not match");
+        }
+        try {
+            setError("");
+            setLoading(true);
+            await signup(values.email, values.password);
+            history.push('/home')
+        } catch(error)
+        {
+            // setError("Failed to Create Account");
+            setError(error)
+            console.log("Error=>",error)
+        }
+        setLoading(false);
+    }
 
     const handleChange = (prop) => (event) => {
         setValues({ 
@@ -100,23 +105,25 @@ function SignUp() {
 
 
     return (
-        <Container maxWidth="sm" className="container">
-            <LockIcon className="icon" style={{ display: "block" }} />
+        <>
+            <LockIcon className="login-icon" style={{ display: "block", fontSize:"3rem" }} />
             <div className="login-title">Sign Up</div>
 
             <div className="login-details-div">
+            { error && <Alert variant="danger">{error}</Alert>}
+
                 <Form onSubmit={handleSubmit}>
-                    { error && <Alert outlined="danger">{error}</Alert>}
+                    {/* {currentUser} */}
                     <FormControl fullWidth className={clsx(classes.withoutLabel)}>
                         <TextField
                             required
-                            ref={emailRef}
                             id="outlined-basic-email"
+                            values={values.email}
                             variant="outlined"
-                            label="Email"
                             type="email"
-                            autoComplete="current-email"
+                            autoComplete="off"
                             aria-describedby="my-helper-text-email"
+                            onChange={handleChange('email')}
                         />
 
                         <FormHelperText id="my-helper-text-email" className={clsx(classes.HeplerText)} >
@@ -129,7 +136,6 @@ function SignUp() {
                     <FormControl variant="outlined" fullWidth className={clsx(classes.withoutLabel)}>
                         <InputLabel required htmlFor="outlined-adornment-password">Password</InputLabel>
                         <OutlinedInput
-                            ref={passwordRef}
                             id="outlined-adornment-password"
                             type={values.showPassword ? 'text' : 'password'}
                             value={values.password}
@@ -154,12 +160,11 @@ function SignUp() {
                     <FormControl variant="outlined" fullWidth className={clsx(classes.withoutLabel)}>
                         <InputLabel required htmlFor="outlined-adornment-confirm-password">Confirm Password</InputLabel>
                         <OutlinedInput
-                            ref={passwordConfirmRef}
                             id="outlined-adornment-confirm-password"
                             type={values.showConfirmPassword ? 'text' : 'password'}
-                            value={values.ConfirmPassword}
+                            value={values.confirmPassword}
                             autoComplete="current-confirm-password"
-                            onChange={handleChange('ConfirmPassword')}
+                            onChange={handleChange('confirmPassword')}
                             endAdornment={
                                 <InputAdornment position="end">
                                     <IconButton
@@ -181,6 +186,7 @@ function SignUp() {
                         fullWidth
                         variant="contained"
                         color="primary"
+                        disabled={loading}
                         className={clsx(classes.withoutLabel)}
                     >
                     Sign UP
@@ -188,11 +194,11 @@ function SignUp() {
                 </Form>
             </div>
             
-            {/* <Link to="/sign-in"> */}
+            <Link to="/sign-in">
                 <p className="link">Already have an account ? Sign In</p>
-            {/* </Link> */}
+            </Link>
+        </>   
 
-        </Container>
     )
 }
 

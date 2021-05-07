@@ -1,20 +1,48 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Nav from './Nav'
+import { useHistory } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
+import { Button } from '@material-ui/core';
+import { Alert } from 'react-bootstrap';
+import "bootstrap/dist/css/bootstrap.min.css"
 
-// import db from '../firebase'
 
 function Home() {
+    const {currentUser, logout} = useAuth();
+    const [loading, setLoading]= useState(false);
+    const [error, setError] = useState('')
+    const history = useHistory();
 
-    // useEffect( () => {
-    //     db.collection("users").onSnapshot( snapshot => {
-    //         snapshot.docs.map( doc => console.log(doc.data()) )
-    //     })
-    // },[])
+    async function handleClick(){
+        setError('')
+        try {
+            setLoading(true)
+            await logout();
+            history.push('/sign-in')
+        } catch(error){
+            setLoading(false)
+            console.log(error)
+            setError("Failed to Log Out")
+        }
+    }
+
 
     return(
         <div>
             <Nav/>
             <h1>Home Pageee</h1>
+            <strong className="mr-1">Email: </strong><span>{currentUser.email}</span>
+            {error && <Alert variant="danger">{error}</Alert>}
+            <Button
+                disabled={loading}
+                onClick={handleClick}
+                fullWidth
+                variant="contained"
+                color="primary"
+                className="mt-4"
+            >
+                Logout
+            </Button>
         </div>
     )
 }
