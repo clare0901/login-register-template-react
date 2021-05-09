@@ -1,41 +1,45 @@
-import React, {useState} from 'react';
-import Nav from './Nav'
-import { useHistory } from 'react-router-dom'
-import { useAuth } from '../contexts/AuthContext'
-import { Button } from '@material-ui/core';
-import { Alert } from 'react-bootstrap';
-import "bootstrap/dist/css/bootstrap.min.css"
-
+import React, { useState } from "react";
+import Nav from "./Nav";
+import { Link, useHistory } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { Button } from "@material-ui/core";
+import { Alert } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function Home() {
-    const {currentUser, logout} = useAuth();
-    const [loading, setLoading]= useState(false);
-    const [error, setError] = useState('')
+    const { currentUser, logout } = useAuth();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
     const history = useHistory();
 
-    async function handleClick(){
-        setError('')
+    async function handleLogout() {
+        setError("");
         try {
-            setLoading(true)
+            setLoading(true);
             await logout();
-            history.push('/sign-in')
-        } catch(error){
-            setLoading(false)
-            console.log(error)
-            setError("Failed to Log Out")
+            history.push("/sign-in");
+        } catch (error) {
+            setLoading(false);
+            console.log(error);
+            setError("Failed to Log Out");
         }
     }
 
-
-    return(
+    return (
         <div>
-            <Nav/>
+            <Nav />
             <h1>Home Pageee</h1>
-            <strong className="mr-1">Email: </strong><span>{currentUser.email}</span>
+            <strong className="mr-1">Email: </strong>
+            <span>{currentUser.email}</span>
             {error && <Alert variant="danger">{error}</Alert>}
+
+            <Link to="/update-profile">
+                <p>Update Profile</p>
+            </Link>
+
             <Button
                 disabled={loading}
-                onClick={handleClick}
+                onClick={handleLogout}
                 fullWidth
                 variant="contained"
                 color="primary"
@@ -44,7 +48,7 @@ function Home() {
                 Logout
             </Button>
         </div>
-    )
+    );
 }
 
 export default Home;

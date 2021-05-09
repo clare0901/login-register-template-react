@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
     TextField,
-    FormHelperText,
     Button,
     IconButton,
     InputLabel,
@@ -9,12 +8,11 @@ import {
     FormControl,
     OutlinedInput,
 } from "@material-ui/core";
-import LockIcon from "@material-ui/icons/Lock";
-import clsx from "clsx";
-import { makeStyles } from "@material-ui/core/styles";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { Form, Alert, Card } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import "../App.scss";
@@ -31,11 +29,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function SignUp() {
+function UpdateProfile() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
 
-    const { signup } = useAuth();
+    const { currentUser, updatePassword, updateEmail } = useAuth();
 
     const history = useHistory();
 
@@ -52,21 +50,35 @@ function SignUp() {
     });
 
     // form on submit
-    async function handleSubmit(event) {
+    function handleSubmit(event) {
         event.preventDefault();
 
         if (values.password !== values.confirmPassword) {
             return setError("Password do not match");
         }
-        try {
-            setError("");
-            setLoading(true);
-            await signup(values.email, values.password);
-            history.push("/");
-        } catch {
-            setError("Failed to Create Account");
+
+        const promises = [];
+        if (values.email !== currentUser.email) {
+            promises.push(updateEmail(values.email));
         }
-        setLoading(false);
+
+        if (values.password) {
+            promises.push(updatePassword(values.password));
+        }
+
+        setError("");
+        setLoading(true);
+
+        Promise.all(promises)
+            .then(() => {
+                history.push("/");
+            })
+            .catch(() => {
+                setError("Failed to update");
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     }
 
     const handleChange = (prop) => (event) => {
@@ -98,11 +110,7 @@ function SignUp() {
         <>
             <Card className="card">
                 <Card.Body>
-                    <LockIcon
-                        className="login-icon"
-                        style={{ display: "block", fontSize: "3rem" }}
-                    />
-                    <div className="login-title">Sign Up</div>
+                    <div className="login-title">Update Profile</div>
                     {error && <Alert variant="danger">{error}</Alert>}
                     <Form onSubmit={handleSubmit}>
                         {/* {currentUser} */}
@@ -115,16 +123,9 @@ function SignUp() {
                                 variant="outlined"
                                 type="email"
                                 autoComplete="off"
-                                aria-describedby="my-helper-text-email"
                                 onChange={handleChange("email")}
+                                defaultValue={currentUser.email}
                             />
-
-                            <FormHelperText
-                                id="my-helper-text-email"
-                                className={clsx(classes.HeplerText)}
-                            >
-                                We'll never share your email.
-                            </FormHelperText>
                         </FormControl>
 
                         {/* PASSWORDS */}
@@ -134,7 +135,7 @@ function SignUp() {
                             fullWidth
                             className={clsx(classes.withoutLabel)}
                         >
-                            <InputLabel required htmlFor="outlined-adornment-password">
+                            <InputLabel htmlFor="outlined-adornment-password">
                                 Password
                             </InputLabel>
                             <OutlinedInput
@@ -164,10 +165,7 @@ function SignUp() {
                             fullWidth
                             className={clsx(classes.withoutLabel)}
                         >
-                            <InputLabel
-                                required
-                                htmlFor="outlined-adornment-confirm-password"
-                            >
+                            <InputLabel htmlFor="outlined-adornment-confirm-password">
                                 Confirm Password
                             </InputLabel>
                             <OutlinedInput
@@ -204,11 +202,11 @@ function SignUp() {
                             disabled={loading}
                             className={clsx(classes.withoutLabel)}
                         >
-                            Sign UP
+                            Update
                         </Button>
                     </Form>
-                    <Link to="/sign-in">
-                        <p className="link">Already have an account ? Log In</p>
+                    <Link to="/">
+                        <p className="link">Cancel</p>
                     </Link>
                 </Card.Body>
             </Card>
@@ -216,4 +214,4 @@ function SignUp() {
     );
 }
 
-export default SignUp;
+export default UpdateProfile;

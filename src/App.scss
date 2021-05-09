@@ -2,6 +2,15 @@ $bgcolor: lightblue;
 $textcolor: #58595B;
 $fontsize: 30px;
 
+.card{
+  //margin: 70px 0px 50px 0px;
+  padding: 20px;
+  border: 1px solid $bgcolor;
+  box-shadow: 2px 1px 8px black;
+  border-radius: 14px;
+  background-color:beige;
+}
+
 .login-title{
   margin: 5px 0px 30px 0px;
   font-size: $fontsize;
