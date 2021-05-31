@@ -1,8 +1,9 @@
 import React from 'react';
+import "../App.scss";
 
 function Nav() {
     return(
-        <h1>Navbar</h1>
+        <h1 className="navbar" >booo</h1>
     )
 }
 

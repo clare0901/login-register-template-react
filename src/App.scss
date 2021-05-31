@@ -45,3 +45,25 @@ $fontsize: 30px;
   float:right;
   text-decoration: underline;
 }
+
+.navbar{
+  margin: 0 0 100px 200px;
+  background-color:transparent;
+  color: wheat;
+}
+
+.bg{
+  background-image: url('./images/bg.jpg');
+}
+
+.main_bg{
+  background-image: url('./images/main_bg.jpg');
+}
+
+.bg, .main_bg{
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width:100vw;
+  height: 100vh;
+}
