@@ -1,5 +1,5 @@
 import "./App.scss";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "./components/Login";
 import Home from "./components/Home";
 import SignUp from "./components/SignUp";
@@ -12,7 +12,7 @@ import PrivateRoute from "./components/PrivateRoute";
 function App() {
   return (
     <div>
-      <Router basename="login-register-template-react">
+      <Router basename="login-register-template-react/">
         <AuthProvider>
           <Switch>
             {/* only if the user is logged in */}
