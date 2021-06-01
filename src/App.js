@@ -12,7 +12,7 @@ import PrivateRoute from "./components/PrivateRoute";
 function App() {
   return (
     <div>
-      <Router>
+      <Router basename="login-register-template-react">
         <AuthProvider>
           <Switch>
             {/* only if the user is logged in */}
