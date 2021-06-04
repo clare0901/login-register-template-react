@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../App.scss";
 import {
   Button,
@@ -6,7 +6,7 @@ import {
   InputLabel,
   InputAdornment,
   FormControl,
-  OutlinedInput,
+  Input
 } from "@material-ui/core";
 import LockIcon from "@material-ui/icons/Lock";
 import clsx from "clsx";
@@ -18,11 +18,14 @@ import { useAuth } from "../contexts/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   withoutLabel: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(3)
   },
   LinkStyle: {
     textDecoration: "None",
   },
+  Label: {
+    marginLeft: theme.spacing(-1.8)
+  }
 }));
 
 function Login() {
@@ -31,6 +34,10 @@ function Login() {
   const [error, setError] = useState("");
   const history = useHistory();
   const classes = useStyles();
+
+  useEffect(() => {
+    document.title = "Log In"
+  }, [])
 
   const [values, setValues] = React.useState({
     email: "",
@@ -87,16 +94,15 @@ function Login() {
                   fullWidth
                   className={clsx(classes.withoutLabel)}
                 >
-                  <InputLabel required htmlFor="outlined-basic">
+                  <InputLabel required htmlFor="outlined-basic" className={clsx(classes.Label)}>
                     Email
                   </InputLabel>
-                  <OutlinedInput
+                  <Input
                     id="outlined-basic"
                     type="text"
                     values={values.email}
                     onChange={handleChange("email")}
                     autoComplete="off"
-                    labelWidth={60}
                   />
                 </FormControl>
 
@@ -105,10 +111,10 @@ function Login() {
                   fullWidth
                   className={clsx(classes.withoutLabel)}
                 >
-                  <InputLabel required htmlFor="outlined-adornment-password">
+                  <InputLabel required htmlFor="outlined-adornment-password" className={clsx(classes.Label)}>
                     Password
                   </InputLabel>
-                  <OutlinedInput
+                  <Input
                     id="outlined-adornment-password"
                     type={values.showPassword ? "text" : "password"}
                     value={values.password}
@@ -129,7 +135,6 @@ function Login() {
                         </IconButton>
                       </InputAdornment>
                     }
-                    labelWidth={90}
                   />
                 </FormControl>
                 <Button

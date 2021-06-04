@@ -8,7 +8,13 @@ $fontsize: 30px;
   border: 1px solid $bgcolor;
   box-shadow: 2px 1px 8px black;
   border-radius: 14px;
-  background-color:beige;
+  background-color:white;
+}
+
+@media only screen  and (max-width: 429px) and (min-width: 300px) {
+  .card{
+    background-color: black;
+  }
 }
 
 .login-title{

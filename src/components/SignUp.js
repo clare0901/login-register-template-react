@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  TextField,
   FormHelperText,
   Button,
   IconButton,
   InputLabel,
   InputAdornment,
-  FormControl,
-  OutlinedInput,
+  FormControl, 
+  Input
 } from "@material-ui/core";
 import LockIcon from "@material-ui/icons/Lock";
 import clsx from "clsx";
@@ -28,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
   HeplerText: {
     color: "black",
-  },
+  }
 }));
 
 function SignUp() {
@@ -94,6 +93,10 @@ function SignUp() {
     event.preventDefault();
   };
 
+  useEffect(() => {
+    document.title = "Sign Up"
+  }, [])
+
   return (
     <>
       <div
@@ -112,12 +115,13 @@ function SignUp() {
               <Form onSubmit={handleSubmit}>
                 {/* {currentUser} */}
                 <FormControl fullWidth className={clsx(classes.withoutLabel)}>
-                  <TextField
+                <InputLabel required htmlFor="outlined-adornment-password">
+                    Email
+                  </InputLabel>
+                  <Input
                     required
                     id="outlined-basic-email"
                     values={values.email}
-                    label="Email"
-                    variant="outlined"
                     type="email"
                     autoComplete="off"
                     aria-describedby="my-helper-text-email"
@@ -135,14 +139,13 @@ function SignUp() {
                 {/* PASSWORDS */}
 
                 <FormControl
-                  variant="outlined"
                   fullWidth
                   className={clsx(classes.withoutLabel)}
                 >
                   <InputLabel required htmlFor="outlined-adornment-password">
                     Password
                   </InputLabel>
-                  <OutlinedInput
+                  <Input
                     id="outlined-adornment-password"
                     type={values.showPassword ? "text" : "password"}
                     value={values.password}
@@ -164,12 +167,10 @@ function SignUp() {
                         </IconButton>
                       </InputAdornment>
                     }
-                    labelWidth={90}
                   />
                 </FormControl>
 
                 <FormControl
-                  variant="outlined"
                   fullWidth
                   className={clsx(classes.withoutLabel)}
                 >
@@ -179,7 +180,7 @@ function SignUp() {
                   >
                     Confirm Password
                   </InputLabel>
-                  <OutlinedInput
+                  <Input
                     id="outlined-adornment-confirm-password"
                     type={values.showConfirmPassword ? "text" : "password"}
                     value={values.confirmPassword}
@@ -201,7 +202,6 @@ function SignUp() {
                         </IconButton>
                       </InputAdornment>
                     }
-                    labelWidth={150}
                   />
                 </FormControl>
 

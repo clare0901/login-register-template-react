@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../App.scss";
 import {
   Button,
   InputLabel,
   FormControl,
-  OutlinedInput,
+  Input,
 } from "@material-ui/core";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
   LinkStyle: {
     textDecoration: "None",
   },
+  Label: {
+    marginLeft: theme.spacing(-1.8)
+  }
 }));
 
 function ForgotPassword() {
@@ -30,6 +33,10 @@ function ForgotPassword() {
   const [values, setValues] = React.useState({
     email: "",
   });
+
+  useEffect(() => {
+    document.title = "Reset Password"
+  }, [])
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -67,10 +74,10 @@ function ForgotPassword() {
                   fullWidth
                   className={clsx(classes.withoutLabel)}
                 >
-                  <InputLabel required htmlFor="outlined-basic">
+                  <InputLabel required htmlFor="outlined-basic" className={clsx(classes.Label)}>
                     Email
                   </InputLabel>
-                  <OutlinedInput
+                  <Input
                     id="outlined-basic"
                     type="text"
                     values={values.email}

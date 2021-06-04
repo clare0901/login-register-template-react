@@ -1,17 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Nav from "./Nav";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { Button } from "@material-ui/core";
+import { Button, Paper } from "@material-ui/core";
 import { Alert } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/core/styles";
 import "../App.scss";
+
+const useStyles = makeStyles((theme) => ({
+  Paper: {
+    padding: theme.spacing(3),
+    opacity:'0.5'
+  },
+  Profile: {
+    marginBottom: '2px'
+  }
+}));
 
 function Home() {
   const { currentUser, logout } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const history = useHistory();
+  // styles
+  const classes = useStyles();
+
+  useEffect(() => {
+    document.title = "Home";
+  }, []);
 
   async function handleLogout() {
     setError("");
@@ -30,14 +48,20 @@ function Home() {
     <div className="bg">
       <Nav />
       <div className="d-flex align-items-center justify-content-center">
-        <div className="w-100" style={{ maxWidth: "400px", fontSize: "18px", color:"white" }}>
-          <strong className="mr-1">Email: </strong>
-          <span>{currentUser.email}</span>
-          {error && <Alert variant="danger">{error}</Alert>}
+        <div
+          className="w-100"
+          style={{ maxWidth: "400px", fontSize: "18px", color: "white" }}
+        >
+          <Paper elevation={3}  className={clsx(classes.Paper)}>
+            <h1 className={clsx(classes.Profile)}>Profile</h1>
+            <strong className="mr-1">Email: </strong>
+            <span>{currentUser.email}</span>
+            {error && <Alert variant="danger">{error}</Alert>}
 
-          <Link to="/update-profile">
-            <p>Update Profile</p>
-          </Link>
+            <Link to="/update-profile">
+              <p>Update Profile</p>
+            </Link>
+          </Paper>
 
           <Button
             disabled={loading}

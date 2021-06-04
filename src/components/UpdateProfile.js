@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import {
   TextField,
   Button,
@@ -6,7 +6,7 @@ import {
   InputLabel,
   InputAdornment,
   FormControl,
-  OutlinedInput,
+  Input,
 } from "@material-ui/core";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { Form, Alert, Card } from "react-bootstrap";
@@ -82,6 +82,10 @@ function UpdateProfile() {
       });
   }
 
+  useEffect(() => {
+    document.title = "Update Profile"
+  }, [])
+
   const handleChange = (prop) => (event) => {
     setValues({
       ...values,
@@ -126,7 +130,6 @@ function UpdateProfile() {
                     id="outlined-basic-email"
                     values={values.email}
                     label="Email"
-                    variant="outlined"
                     type="email"
                     autoComplete="off"
                     onChange={handleChange("email")}
@@ -137,14 +140,13 @@ function UpdateProfile() {
                 {/* PASSWORDS */}
 
                 <FormControl
-                  variant="outlined"
                   fullWidth
                   className={clsx(classes.withoutLabel)}
                 >
                   <InputLabel htmlFor="outlined-adornment-password">
                     Password
                   </InputLabel>
-                  <OutlinedInput
+                  <Input
                     id="outlined-adornment-password"
                     type={values.showPassword ? "text" : "password"}
                     value={values.password}
@@ -166,19 +168,18 @@ function UpdateProfile() {
                         </IconButton>
                       </InputAdornment>
                     }
-                    labelWidth={90}
+                    // labelWidth={90}
                   />
                 </FormControl>
 
                 <FormControl
-                  variant="outlined"
                   fullWidth
                   className={clsx(classes.withoutLabel)}
                 >
                   <InputLabel htmlFor="outlined-adornment-confirm-password">
                     Confirm Password
                   </InputLabel>
-                  <OutlinedInput
+                  <Input
                     id="outlined-adornment-confirm-password"
                     type={values.showConfirmPassword ? "text" : "password"}
                     value={values.confirmPassword}
