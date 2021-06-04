@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     opacity:'0.5'
   },
   Profile: {
-    marginBottom: '2px'
+    marginBottom: '20px'
   }
 }));
 
