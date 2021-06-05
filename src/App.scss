@@ -46,14 +46,15 @@ $fontsize: 30px;
   text-decoration: underline;
 }
 
-.navbar-div{
-  background-color: lighten($color: rgb(187, 187, 235), $amount: 10);
-}
+// .navbar-div{
+//   background-color: lighten($color: rgb(187, 187, 235), $amount: 10);
+// }
 
 .navbar{
   margin: 0 0 100px 20px;
   padding: 20px;
-  color: lighten($color: rgb(122, 122, 163), $amount: 0)
+  // ($color: rgb(122, 122, 163), $amount: 0)
+  color:lighten($color: rgb(122, 122, 163),$amount: 30)
 }
 
 .bg{
