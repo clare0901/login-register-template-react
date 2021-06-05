@@ -13,7 +13,13 @@ $fontsize: 30px;
 
 @media only screen  and (max-width: 429px) and (min-width: 300px) {
   .card{
-    background-color: black;
+    margin:20px;
+  }
+  #paper{
+    margin: 20px;
+  }
+  #logout_button{
+    margin: 20px;
   }
 }
 

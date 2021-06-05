@@ -52,8 +52,8 @@ function Home() {
           className="w-100"
           style={{ maxWidth: "400px", fontSize: "18px", color: "white" }}
         >
-          <Paper elevation={3}  className={clsx(classes.Paper)}>
-            <h1 className={clsx(classes.Profile)}>Profile</h1>
+          <Paper elevation={3} className={clsx(classes.Paper)} id="paper">
+            <h1 className={clsx(classes.Profile)}>My Profile</h1>
             <strong className="mr-1">Email: </strong>
             <span>{currentUser.email}</span>
             {error && <Alert variant="danger">{error}</Alert>}
@@ -69,7 +69,8 @@ function Home() {
             fullWidth
             variant="contained"
             color="primary"
-            className="w-25 mt-4"
+            id="logout_button"
+            className="w-25 mt-4 "
           >
             Logout
           </Button>
